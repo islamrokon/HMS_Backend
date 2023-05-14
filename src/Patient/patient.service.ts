@@ -2,8 +2,6 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AppointmnetForm, PatientForm , PatientFormlab } from './patient.dto';
-import { PATIENTS} from './patient.mock';
-import { PATIENTSLAB } from './patient.mocklab';
 import { AppointmentEntity, LabEntity, PatientEntity } from './patiententity.entity';
 import * as bcrypt from 'bcrypt';
 import { MailerService } from "@nestjs-modules/mailer/dist";
