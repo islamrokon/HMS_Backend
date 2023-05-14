@@ -47,6 +47,15 @@ export class PatientService {
         return doctors;
     }
 
+    async labs():Promise<any>{
+        const labs = await this.LabRepo.find();
+        if(!labs || !labs[0]){
+            throw new HttpException('Not Found!', 404);
+        }
+        return labs
+        ;
+    }
+
     async getPatientById(patientid: number): Promise<any> {
         const patient = await this.PatientRepo.findOneBy({patientid});
         if(!patient){
@@ -61,6 +70,10 @@ export class PatientService {
             throw new HttpException('Not Found!', 404);
         }
         return lab;
+    }
+
+    getUserByIDName(qry):any {
+        return this.DoctorRepo.findOneBy({ id:qry.id,name:qry.name });
     }
     
  

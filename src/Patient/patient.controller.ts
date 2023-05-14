@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body,Param, Query, UsePipes, ValidationPipe, UseInterceptors, UploadedFile, Session, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body,Param, Query, UsePipes, ValidationPipe, UseInterceptors, UploadedFile, Session, UnauthorizedException, UseGuards, Res } from '@nestjs/common';
 import { FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, ParseIntPipe } from '@nestjs/common/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -10,11 +10,16 @@ import { SessionGuard } from './session.guard';
 export class PatientController {
     constructor (private patientService: PatientService){}
 
-    @Get()
-    @UseGuards(SessionGuard)
+    @Get('/allpatient')
+    //@UseGuards(SessionGuard)
     async getPatients() {
         const patients = await this.patientService.getPatients();
         return patients;
+    }
+
+    @Get('/findoctor')
+    getAdminByIDName(@Query() qry: any): any {
+      return this.patientService.getUserByIDName(qry);
     }
 
     @Get('/showalldoctor')
@@ -23,19 +28,30 @@ export class PatientController {
         const doctors = await this.patientService.showalldoctor();
         return doctors;
     }
+    @Get('/getimage/:name')
+    getImages(@Param('name') name, @Res() res) {
+      res.sendFile(name,{ root: './prescriptions' })
+    }
 
     @Get('/patient/:patientid')
-    @UseGuards(SessionGuard)
+    //@UseGuards(SessionGuard)
     async getPatientById(@Param('patientid') patientid) {
         const patient = await this.patientService.getPatientById(patientid);
         return patient;
     }
 
     @Get('/patientlab/:testid')
-    @UseGuards(SessionGuard)
+    //@UseGuards(SessionGuard)
     async getPatientlabById(@Param('testid') testid) {
         const patient = await this.patientService.getPatientlabById(testid);
         return patient;
+    }
+
+    @Get('/labs')
+    //@UseGuards(SessionGuard)
+    async labs() {
+        const labs = await this.patientService.labs();
+        return labs;
     }
 
     @Post('/signup')
@@ -184,7 +200,7 @@ public async getPatientBylabid(@Param('id') id: number){
 
 
     @Get("/getPatientByappointment/:id")
-    @UseGuards(SessionGuard)
+    //@UseGuards(SessionGuard)
 public async getPatientByappointment(@Param('id') id: number){
   const patient = await this.patientService.getPatientByappointment(id);
   return patient;
@@ -198,7 +214,7 @@ public async getDoctorByappointment(@Param('id') id: number){
 }
  
 @Get("showpaymentbypatientid/:id")
-@UseGuards(SessionGuard)
+//@UseGuards(SessionGuard)
 public async showpaymentbypatientid(@Param('id')id:number){
   const payment = await this.patientService.showpaymentbypatientid(id);
   return payment;
