@@ -12,7 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [adminmodule,DoctorModule,EmployeeModule, PatientModule, TypeOrmModule.forRoot(
     {
       type: 'postgres',
-      host: 'containers-us-west-193.railway.app',
+      host: 'containers-us-west-175.railway.app',
       port: 6971,
       username: 'postgres',
       password: 'IowRs5Q2ykK7l1ToC9a5',
