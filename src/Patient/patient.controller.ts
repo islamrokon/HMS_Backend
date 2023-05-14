@@ -17,9 +17,10 @@ export class PatientController {
         return patients;
     }
 
-    @Get('/findoctor')
-    getAdminByIDName(@Query() qry: any): any {
-      return this.patientService.getUserByIDName(qry);
+    @Get('/finddoctor/:id')
+    async getAdminByIDName(@Param('id') id) {
+      const doctor = await this.patientService.getUserByIDName(id);
+      return doctor;
     }
 
     @Get('/showalldoctor')
@@ -38,6 +39,10 @@ export class PatientController {
     async getPatientById(@Param('patientid') patientid) {
         const patient = await this.patientService.getPatientById(patientid);
         return patient;
+    }
+    @Get('/email')
+    async findPatientByEmail(@Query('email') email: string) {
+      return this.patientService.findPatientByEmail(email);
     }
 
     @Get('/patientlab/:testid')
@@ -77,7 +82,7 @@ export class PatientController {
         return patient;
     }
 
-   @Get('/signin')
+   @Post('/signin')
     async signin(@Session() session, @Body() mydto:PatientForm)
     {
       const found = this.patientService.signin(mydto);
@@ -86,7 +91,7 @@ export class PatientController {
       session.email = mydto.email;
     
       console.log(session.email);
-      return {message:"You have logged in successfully!"};
+      return (session.email);
     
     }
     else
@@ -96,7 +101,7 @@ export class PatientController {
   }
 
   @Get('/signout')
-  @UseGuards(SessionGuard)
+  //@UseGuards(SessionGuard)
  signout(@Session() session)
 {
   if(session.destroy())
@@ -147,7 +152,7 @@ export class PatientController {
     }
 
     @Delete("/deletelab/:id")
-    @UseGuards(SessionGuard)
+    //@UseGuards(SessionGuard)
     public async deletePatientlabById(@Param('id') id: number) {
         const patient = await this.patientService.deletePatientlabById(id);
         return patient;
@@ -218,6 +223,16 @@ public async getDoctorByappointment(@Param('id') id: number){
 public async showpaymentbypatientid(@Param('id')id:number){
   const payment = await this.patientService.showpaymentbypatientid(id);
   return payment;
+}
+
+
+@Put('/updatelab/:id')
+
+updatelabbyid(
+  @Body() mydto: PatientFormlab,
+  @Param('id', ParseIntPipe) id: number,
+): any {
+  return this.patientService.updatelab(mydto, id);
 }
 
 

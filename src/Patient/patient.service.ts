@@ -64,6 +64,10 @@ export class PatientService {
         else return patient;
     }
 
+    async findPatientByEmail(email: string){
+        return await this.PatientRepo.findOneBy({ email });
+      }
+
     async getPatientlabById(testid): Promise<any> {
         const lab = await this.LabRepo.findOneBy({testid});
         if(!lab || lab[0]){
@@ -72,8 +76,9 @@ export class PatientService {
         return lab;
     }
 
-    getUserByIDName(qry):any {
-        return this.DoctorRepo.findOneBy({ id:qry.id,name:qry.name });
+    async getUserByIDName(id: number):Promise<any> {
+        return this.DoctorRepo.findOneBy({ id });
+
     }
     
  
@@ -263,6 +268,9 @@ async showpaymentbypatientid(id: number): Promise<any> {
     throw new HttpException('Not Found!', 404);
 }
 else return doctor;
+}
+updatelab(mydto:PatientFormlab,id):any {
+    return this.LabRepo.update(id,mydto);
 }
 
 
