@@ -265,7 +265,7 @@ async showpaymentbypatientid(id: number): Promise<any> {
         where: {patientid:id},
  });
  if(!doctor || !doctor[0]){
-    throw new HttpException('Not Found!', 404);
+    throw new HttpException('Not Found!!', 404);
 }
 else return doctor;
 }
