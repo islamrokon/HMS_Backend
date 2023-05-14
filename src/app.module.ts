@@ -13,7 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     {
       type: 'postgres',
       host: 'containers-us-west-175.railway.app',
-      port: 6971,
+      port: 6791,
       username: 'postgres',
       password: 'IowRs5Q2ykK7l1ToC9a5',
       database: 'railway',
